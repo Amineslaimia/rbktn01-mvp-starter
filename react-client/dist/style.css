@@ -1,0 +1,17 @@
+div:not(#search)
+{
+   font-size: 1em ;
+   color: #fff ;
+   font-family: Arial !important;
+}
+
+.main{
+  margin-top: 200px;
+  margin-left: 50px;
+  margin-right: 50px;
+  padding: 50px;
+  border-radius: 15px;
+}
+body{
+  background-image: url("background.jpeg");
+}

@@ -1,31 +1,28 @@
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+const mongoose = require('mongoose');
 
-var db = mongoose.connection;
 
-db.on('error', function() {
-  console.log('mongoose connection error');
-});
+//Promise
+mongoose.Promise = global.Promise;
 
-db.once('open', function() {
-  console.log('mongoose connected successfully');
-});
 
-var itemSchema = mongoose.Schema({
-  quantity: Number,
-  description: String
-});
-
-var Item = mongoose.model('Item', itemSchema);
-
-var selectAll = function(callback) {
-  Item.find({}, function(err, items) {
-    if(err) {
-      callback(err, null);
-    } else {
-      callback(null, items);
-    }
+  // create connection
+  var dbName = "weatherapp"
+  mongoose.connect(`mongodb://localhost/${dbName}`,{useMongoClient: true  } ,function(err,db){
+      if(err) throw err;
+      console.log(`database ${dbName} was created`);
   });
-};
 
-module.exports.selectAll = selectAll;
+  // add event open the connection and handle the error
+  mongoose.connection.once("open",()=>{
+  console.log("the connection was made")
+}).on("error",(error)=>{
+  console.log("faild to connect to database")
+})
+
+
+
+
+
+
+
+

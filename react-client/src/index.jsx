@@ -1,34 +1,40 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import List from './components/List.jsx';
+import Search from './components/search.jsx';
+import View from './components/infodisplay.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      items: []
+    this.state = {
+      info: {}
     }
   }
 
-  componentDidMount() {
+  search (location) {
+    var that = this;
+   // post request
     $.ajax({
-      url: '/items', 
-      success: (data) => {
-        this.setState({
-          items: data
-        })
-      },
-      error: (err) => {
-        console.log('err', err);
+      type: "POST",
+      url: '/current',
+      contentType: "application/json",
+      data: JSON.stringify({location: location}),
+      success: function(result) {
+
+        that.setState({
+          info: result
+        });
+
       }
-    });
+    })
   }
+
 
   render () {
     return (<div>
-      <h1>Item List</h1>
-      <List items={this.state.items}/>
+      <Search  onSearch={this.search.bind(this)}/>
+      <View info={this.state.info}/>
     </div>)
   }
 }
